@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bautista Lab6</title>
+	</head>
+	<style type="text/css">
+		body {
+    text-align: center;
+}
+#canvas {
+    position: relative;
+    background-color: #FFFFFF;
+    margin: 1em auto;
+    border:25px 
+    solid #000000;
+}
+.ball {
+    background-color: black;
+    position: absolute;
+    display: inline-block;
+    border-radius: 50%;
+}
+#container { width:600px; margin:0 auto; }
+#myCanvas2 { background:#fff; border:25px solid #000000; }
+#nav { display:block; width:100%; text-align:center; }
+#nav li { display:block; font-weight:bold; line-height:21px; text-shadow:1px 1px 1px #fff; width:100px; height:21px; padding:5px; margin:0 10px; background:#e0e0e0; border:1px solid #ccc; -moz-border-radius:4px;-webkit-border-radius:4px; border-radius:4px; float:left; }
+#nav li a { color:#000; display:block; text-decoration:none; width:100%; height:100%; }
+
+	</style>
+	<body>
+
+
+	<h1>Bouncing Ball</h1>
+
+
+<div id="container">
+	
+<canvas id="myCanvas2" width="500" height="500"></canvas>
+
+	<script type="text/javascript">
+var context;
+var dx= 4;
+var dy=4;
+var y=150;
+var x=10;
+function draw(){
+	context= myCanvas2.getContext('2d');
+	context.clearRect(0,0,500,500);
+	context.beginPath();
+	context.fillStyle="#0000ff";
+	context.arc(x,y,20,0,Math.PI*2,true);
+	context.closePath();
+	context.fill();
+	if( x<0 || x>500)
+	dx=-dx;
+	if( y<0 || y>500)
+		dy=-dy;
+		x+=dx;
+		y+=dy;
+	}
+setInterval(draw,20); 
+var context;
+var dx= 8;
+var dy=8;
+var y=300;
+var x=20;
+function draw(){
+	context= myCanvas2.getContext('2d');
+	context.clearRect(0,0,500,500);
+	context.beginPath();
+	context.fillStyle="#000000";
+	context.arc(x,y,20,0,Math.PI*2,true);
+	context.closePath();
+	context.fill();
+	if( x<0 || x>500)
+	dx=-dx;
+	if( y<0 || y>500)
+		dy=-dy;
+		x+=dx;
+		y+=dy;
+	}
+setInterval(draw,20); 
+</script>
+<div id="canvas"><h1>Bouncing Multiple Balls</h1></div>
+
+<script type="text/javascript">
+	var canvas = {
+    element: document.getElementById('canvas'),
+    width: 500,
+    height: 500,
+    initialize: function () {
+        this.element.style.width = this.width + 'px';
+        this.element.style.height = this.height + 'px';
+        document.body.appendChild(this.element);
+    }
+};
+
+var Ball = {
+    create: function (color, dx, dy) {
+        var newBall = Object.create(this);
+        newBall.dx = dx;
+        newBall.dy = dy;
+        newBall.width = 40;
+        newBall.height = 40;
+        newBall.element = document.createElement('div');
+        newBall.element.style.backgroundColor = color;
+        newBall.element.style.width = newBall.width + 'px';
+        newBall.element.style.height = newBall.height + 'px';
+        newBall.element.className += ' ball';
+        newBall.width = parseInt(newBall.element.style.width);
+        newBall.height = parseInt(newBall.element.style.height);
+        canvas.element.appendChild(newBall.element);
+        return newBall;
+    },
+    moveTo: function (x, y) {
+        this.element.style.left = x + 'px';
+        this.element.style.top = y + 'px';
+    },
+    changeDirectionIfNecessary: function (x, y) {
+        if (x < 0 || x > canvas.width - this.width) {
+            this.dx = -this.dx;
+        }
+        if (y < 0 || y > canvas.height - this.height) {
+            this.dy = -this.dy;
+        }
+    },
+    draw: function (x, y) {
+        this.moveTo(x, y);
+        var ball = this;
+        setTimeout(function () {
+            ball.changeDirectionIfNecessary(x, y);
+            ball.draw(x + ball.dx, y + ball.dy);
+        }, 1000 / 60);
+    }
+};
+
+canvas.initialize();
+var ball1 =  Ball.create("pink", 4, 3);
+var ball2 =  Ball.create("red", 1, 5);
+var ball3 =  Ball.create("black", 2, 2);
+ball1.draw(70, 0);
+ball2.draw(20, 200);
+ball3.draw(300, 330);
+</script>
+<div id="canvas2"></div>
+<script type="text/javascript">
+	var canvas2 = {
+    element: document.getElementById('canvas2'),
+    width: 600,
+    height: 400,
+    initialize: function () {
+        this.element.style.width = this.width + 'px';
+        this.element.style.height = this.height + 'px';
+        document.body.appendChild(this.element);
+    }
+};
+</script>
+ <h1>Bouncing Name</h1>
+  <canvas id="mycanvas" width="500" height="500" style="border:25px solid black;"></canvas>
+    <script>
+        var canvas = document.getElementById('mycanvas');
+        var ctx = canvas.getContext('2d');
+        var p = { x: 250, y: 50 };
+        var velo = 3,
+            corner = 20,
+            rad = 50;
+        var ball = { x: p.x, y: p.y };
+        var moveX = Math.cos(Math.PI / 180 * corner) * velo;
+        var moveY = Math.sin(Math.PI / 180 * corner) * velo;
+		var text = "Patrick Bautista";
+        function DrawMe() {
+            ctx.clearRect(0, 0, 500, 500);
+            if (ball.x > canvas.width - rad || ball.x < rad) moveX = -moveX;
+            if (ball.y > canvas.height - rad || ball.y < rad) moveY = -moveY;
+            ball.y += moveY;
+			ball.x += moveX;
+
+           
+            ctx.beginPath();
+			ctx.fillText(text,ball.x,ball.y);
+			ctx.strokeStyle = "#FFFFFF";			
+			ctx.textAlign = "center";
+			ctx.textBaseline = "middle";
+			ctx.font = "30px Calibri";
+
+			
+            ctx.lineWidth = 3;
+            ctx.arc(ball.x, ball.y, rad, 0, Math.PI * 2, false);
+            ctx.stroke();
+            ctx.closePath();
+        }
+        setInterval(DrawMe, 20);
+    </script>
+    <div class="canvasArea">
+    	<h1>Moving GIF</h1>
+    <div id="canvas4" class="premakni">
+    	<img src="unicorn.gif" />
+            </div>
+            <script language="javascript">
+            var x = 0; // Začetna koordinata x.
+            var y = 230; // Začetna koordinata y.
+            var max_x = 300; // Maksimalna koordinata x.
+            var max_y = 300; // Maksimalna koordinata y.
+            var xpremik = 15; // Premik za 15px vsaki korak.
+            var ypremik = 15; // Premik za 15px vsaki korak.
+            function go()
+            {
+                premikSlike()
+            }
+            function premikSlike() {
+                x = x + xpremik;
+                y = y + ypremik;
+                // Premik slike na novo pozicijo.
+                document.getElementById("canvas4").style.top = y+'px';
+                document.getElementById("canvas4").style.left = x+'px';
+                // Če dosežemo limite, resetiramo premik vektor.
+                if ((x+xpremik > max_x) || (x+xpremik < 0))
+                xpremik *=-1;
+                if ((y+ypremik > max_y) || (y+ypremik < 0))
+                ypremik *=-1;
+                window.setTimeout('premikSlike()',100);
+                // Kličemo premikSlike vsake 100ms.
+            }
+            </script>
+
+       
+</body>
+</html>
